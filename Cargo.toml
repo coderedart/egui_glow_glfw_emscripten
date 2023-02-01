@@ -1,9 +1,11 @@
 [package]
-name = "rust-sdl2-wasm"
+name = "egui_glow_glfw_emscripten"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-sdl2 = { version = "*", features = ["raw-window-handle", "gfx", "ttf", ]}
-glow = { version = "*" }
 mlua = { version = "*", features = ["luau"] }
+egui_render_glow = { git = "https://github.com/coderedart/etk.git" }
+egui_backend = { git = "https://github.com/coderedart/etk.git" }
+egui_window_glfw_passthrough = { git = "https://github.com/coderedart/etk.git", default-features = false }
+tracing-subscriber = "*"
