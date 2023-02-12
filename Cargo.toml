@@ -4,8 +4,14 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-mlua = { version = "*", features = ["luau"] }
+mlua = { git = "https://github.com/khvzak/mlua.git", branch = "dev", features = [
+    "luau",
+] }
 egui_render_glow = { git = "https://github.com/coderedart/etk.git" }
 egui_backend = { git = "https://github.com/coderedart/etk.git" }
-egui_window_glfw_passthrough = { git = "https://github.com/coderedart/etk.git", default-features = false }
 tracing-subscriber = "*"
+tracing = "*"
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+egui_window_glfw_passthrough = { git = "https://github.com/coderedart/etk.git", default-features = false }
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+egui_window_glfw_passthrough = { git = "https://github.com/coderedart/etk.git" }
