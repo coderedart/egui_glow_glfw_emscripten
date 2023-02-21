@@ -15,3 +15,12 @@ tracing = "*"
 egui_window_glfw_passthrough = { git = "https://github.com/coderedart/etk.git", default-features = false }
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 egui_window_glfw_passthrough = { git = "https://github.com/coderedart/etk.git" }
+
+
+# egui_render_glow = { path = "../etk/crates/egui_render_glow" }
+# egui_backend = { path = "../etk/crates/egui_backend" }
+
+# [target.'cfg(target_arch = "wasm32")'.dependencies]
+# egui_window_glfw_passthrough = { path = "../etk/crates/egui_window_glfw_passthrough", default-features = false }
+# [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+# egui_window_glfw_passthrough = { path = "../etk/crates/egui_window_glfw_passthrough" }

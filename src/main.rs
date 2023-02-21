@@ -1,8 +1,8 @@
 use egui_backend::egui::Window;
-use egui_backend::{BackendConfig, EguiUserApp, GfxBackend, WindowBackend};
+use egui_backend::{GfxBackend, UserApp, WindowBackend};
 use egui_glow_glfw_emscripten::register_egui;
 use egui_render_glow::GlowBackend;
-use egui_window_glfw_passthrough::{default_glfw_callback, GlfwBackend, GlfwConfig};
+use egui_window_glfw_passthrough::{GlfwBackend, GlfwConfig};
 use mlua::{Function, Lua};
 
 /// This is our userdata.
@@ -29,7 +29,7 @@ end
 "#;
 
 // we care generic over the window backend. so, we can just decide at runtime which backend to use. eg: winit, glfw3, sdl2 are provided by `etk`
-impl<WB: egui_backend::WindowBackend> EguiUserApp for UserAppData<WB> {
+impl<WB: egui_backend::WindowBackend> UserApp for UserAppData<WB> {
     // these are used by some default trait method implementations to abstract out the common parts like providing egui input or drawing egui output etc..
     type UserGfxBackend = GlowBackend;
 
@@ -52,6 +52,7 @@ impl<WB: egui_backend::WindowBackend> EguiUserApp for UserAppData<WB> {
     // the only function we care about. add whatever gui code you want.
     fn gui_run(&mut self) {
         let egui_context = self.egui_context.clone();
+
         Window::new("hello window").show(&egui_context, |ui| {
             ui.label(
                 r#"
@@ -65,7 +66,9 @@ impl<WB: egui_backend::WindowBackend> EguiUserApp for UserAppData<WB> {
             "#,
             );
             ui.code_editor(&mut self.code);
-            if ui.button("run code").clicked() {
+
+            let res = ui.button("run code");
+            if res.clicked() {
                 if let Err(e) = self.lua_vm.load(&self.code).exec() {
                     eprintln!("failed to run lua code: {e}")
                 }
@@ -103,23 +106,10 @@ fn main() {
     // init logging
     tracing_subscriber::fmt().init();
     // just create a new backend. ask window backend for an opengl window because we chose glow backend. on vulkan/dx/metal(desktop), we would choose non-gl window.
-    let mut window_backend = GlfwBackend::new(
-        GlfwConfig {
-            glfw_callback: Box::new(|glfw_context| {
-                default_glfw_callback(glfw_context);
-                #[cfg(not(target_arch = "wasm32"))]
-                glfw_context.window_hint(
-                    egui_window_glfw_passthrough::glfw::WindowHint::ClientApi(
-                        egui_window_glfw_passthrough::glfw::ClientApiHint::OpenGl,
-                    ),
-                );
-            }),
-            ..Default::default()
-        },
-        BackendConfig {},
-    );
+    let mut window_backend = GlfwBackend::new(GlfwConfig::default(), Default::default());
     // create a opengl backend.
     let glow_backend = GlowBackend::new(&mut window_backend, Default::default());
+    // window_backend.set_window_size([1200.0, 700.0]);
     let lua_vm = Lua::new();
     register_egui(&lua_vm);
     // create our app data
