@@ -19,12 +19,17 @@ struct UserAppData<WB: WindowBackend> {
 }
 /// just some default lua code to show in text editor
 pub const LUA_CODE: &str = r#"
+clicked_count = 0;
+
 function gui(ui)
 	ui:label("just a label");
 	local res = ui:button("lua butt");
 	if res:clicked() then
 		print("clicked button");
+        clicked_count = clicked_count + 1;
 	end
+    ui:label("clicked count: ");
+    ui:label(clicked_count);
 end
 "#;
 
@@ -59,7 +64,7 @@ impl<WB: egui_backend::WindowBackend> UserApp for UserAppData<WB> {
                 This is where you write lua code. 
                 1. there must be a function defined with the name `gui`
                 2. the function will take a single argument (`&mut Ui`)
-                3. you can use either label or button methods on that argument.
+                3. you can use either label or button methods on that "ui" argument.
                 4. button method returns a response object
                 5. response has clicked method, which returns a bool (true if button is clicked).
                 6. print statements go to console logs.
