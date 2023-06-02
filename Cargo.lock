@@ -127,7 +127,7 @@ dependencies = [
 [[package]]
 name = "egui_backend"
 version = "0.2.0"
-source = "git+https://github.com/coderedart/etk.git#b1727bf6c4b242a4557731f736d48cad07c81908"
+source = "git+https://github.com/coderedart/etk.git#b89306c668e176c78c339639a07d6cf2a31f098f"
 dependencies = [
  "egui",
  "raw-window-handle",
@@ -148,7 +148,7 @@ dependencies = [
 [[package]]
 name = "egui_render_glow"
 version = "0.1.0"
-source = "git+https://github.com/coderedart/etk.git#b1727bf6c4b242a4557731f736d48cad07c81908"
+source = "git+https://github.com/coderedart/etk.git#b89306c668e176c78c339639a07d6cf2a31f098f"
 dependencies = [
  "bytemuck",
  "egui_backend",
@@ -164,7 +164,7 @@ dependencies = [
 [[package]]
 name = "egui_window_glfw_passthrough"
 version = "0.1.0"
-source = "git+https://github.com/coderedart/etk.git#b1727bf6c4b242a4557731f736d48cad07c81908"
+source = "git+https://github.com/coderedart/etk.git#b89306c668e176c78c339639a07d6cf2a31f098f"
 dependencies = [
  "egui_backend",
  "glfw-passthrough",
