@@ -1,3 +1,5 @@
+# Archived in favor of https://github.com/coderedart/luaegui
+
 # Rust + Glfw + WASM + mlua example
 proof of concept that you can use rust + glfw + mlua on browser wasm together to enable scripting for rust based apps/games on browser.
 
